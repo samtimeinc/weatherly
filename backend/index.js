@@ -100,24 +100,24 @@ const server = http.createServer(async (request, response) => {
             return sendJSON(response, 200, data);
         } catch (error) {
             console.error("Weather city error: ", error.response?.data);
-            return sendJSON(response, 500, { error: "Weather lookup failed" });
+            return sendJSON(response, 500, { error: "Weather lookup by city failed" });
         }
     }
 
     if (path === "/api/weather/coords") {
-        const { latitude, longitude, units = "metric"} = query;
+        const { lat, lon, units = "metric"} = query;
 
-        if (!latitude || !longitude) {
+        if (!lat || !lon) {
             return sendJSON(response, 400, { error: "Latitude and longitude required"});
         }
 
         try {
             const [currentResponse, forecastResponse] = await Promise.all([
                 axios.get(
-                    `${BASE_URL}/weather?latitude=${latitude}&longitude=${longitude}&appid=${API_KEY}&units=${units}`
+                    `${BASE_URL}/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=${units}`
                 ),
                 axios.get(
-                    `${BASE_URL}/forecast?latitude=${latitude}&longitude=${longitude}&appid=${API_KEY}&units=${units}`
+                    `${BASE_URL}/forecast?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=${units}`
                 ),
             ]);
 
@@ -125,7 +125,7 @@ const server = http.createServer(async (request, response) => {
             return sendJSON(response, 200, data);
         } catch (error) {
             console.error("Weather coordinates error: ", error.response?.data);
-            return sendJSON(response, 500, { error: "Weather lookup failed" });
+            return sendJSON(response, 500, { error: "Weather lookup by coordinates failed" });
         }
     }
 
