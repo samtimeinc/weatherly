@@ -83,7 +83,7 @@ const server = http.createServer(async (request, response) => {
         const units = query.units || "metric";
 
         if (!city) {
-            return sendJSON(response, 400, { error: "City is required"});
+            return sendJSON(response, 400, { error: "City is required" });
         }
 
         try {

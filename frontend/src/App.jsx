@@ -16,7 +16,7 @@ export default function App() {
 
     try {
       const response = await fetch(
-        `http://localhost:3000/api/weather?city=${city}`,
+        `http://localhost:3000/api/weather?city=${encodeURI(city)}`,
       );
 
       const data = await response.json();
